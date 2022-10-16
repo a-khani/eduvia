@@ -20,7 +20,7 @@ def toposort(graph, node):
 # finds what path is needed for getting to a class based on given TAKEN class list
 def classpath(deets, taken, course, time):
     # run toposort() on the school with the given course
-    path = (list) (reversed(toposort(deets['prereqs'], course)))
+    path = (list) (reversed(toposort(deets["prereqs"], course)))
 
     def whats_left(taken):
         result = []
@@ -29,12 +29,12 @@ def classpath(deets, taken, course, time):
                 result.append(path[i])
         return result
 
-    def one_pt_zero_gpa_behavior():
-        if (deets["type"] == 'hs'):
-            for req in deets["reqs"]:
-                if req not in taken:
-                    print("You won't be able to graduate!")
-                    return
+    # def one_pt_zero_gpa_behavior():
+    #     if (deets["type"] == 'hs'):
+    #         for req in deets["reqs"]:
+    #             if req not in taken:
+    #                 print("You won't be able to graduate!")
+    #                 return
 
     # helper function to see if you have enough time to complete prereqs
     def prereq_check(rem, time_left):
@@ -58,7 +58,7 @@ def classpath(deets, taken, course, time):
     # checks which classes you still have remaining
     remaining = whats_left(taken)
 
-    one_pt_zero_gpa_behavior()
+    # one_pt_zero_gpa_behavior()
     return prereq_check(remaining, time)
 
 
@@ -84,7 +84,7 @@ def schedule(deets, int, cp):
             break
                 
     for sem in range(len(sched)):
-        print("Sem " + (str) (sem + 1) + ": " + (str) (sched[sem]))
+        print("Term " + (str) (sem + 1) + ": " + (str) (sched[sem]))
 
 def merge_two_paths(list_1, list_2):
     combined = list_1 + list_2
@@ -114,9 +114,9 @@ def main():
             taken.append(new_class)
             
     # ask which course they want to take
-    course = ""
+    # course = ""
     intended = []
-    course = input("Which class do you want to take? \n")
+    course = input("Which class do you want to take?\n")
     intended.append(course)
     # while (course != "e"):
     #     course = input("Type a class you want to take (press 'e' to exit) \n")
@@ -132,7 +132,7 @@ def main():
     # check school types, proceed accordingly
     if (deets["type"] == "hs"):
         time = (int) (input("How many years (including this one) do you have left? \n"))
-        c = classpath(deets, taken, intended, time)
+        c = classpath(deets, taken, course, time)
         schedule(deets, intended, c)
     else:
         time = (int) (input("How many semesters (including this one) do you have left? \n"))

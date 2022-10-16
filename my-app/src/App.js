@@ -4,11 +4,8 @@ import Header from "./components/Navbar.jsx";
 import Button from 'react-bootstrap/Button';
 import Chatbot, { chatBot } from 'react-chatbot-kit';
 import "./App.css";
-import React from 'react';
-import MessageParser from "./components/Chatbot/MessageParser.js";
-import ActionProvider from "./components/Chatbot/ActionProvider.js";
-import config from "./components/Chatbot/Config.js";
-import {usEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+
 // window.something (value) {
 //   this.setState({value})
 // }

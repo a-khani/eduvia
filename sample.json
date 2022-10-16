@@ -42,7 +42,7 @@
         {
             "Algebra 1": [],
             "Geometry": ["Algebra 1"],
-            "Algebra 2": [" Geometry"],
+            "Algebra 2": ["Geometry"],
             "Pre-Calculus": ["Algebra 2"],
             "AP Calculus AB": ["Algebra 2"],
             "AP Calculus BC": ["AP Calculus AB"],

@@ -40,7 +40,8 @@ berkeley_cs = {
     '61A': []
 }
 
-print("CS 182: " + (str) (toposort(berkeley_cs, '182')))
-print("CS 168: " + (str) (toposort(berkeley_cs, '168')))
-print("CS 162: " + (str) (toposort(berkeley_cs, '162')))
-print("CS 70: " + (str) (toposort(berkeley_cs, '70')))
+course = input("Which class? \n")
+result = []
+for i in range(4):
+    result.insert(0, toposort(berkeley_cs, course)[i])
+print("CS " + course + ": " + (str)(result))

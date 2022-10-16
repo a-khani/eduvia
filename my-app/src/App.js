@@ -1,8 +1,13 @@
 import ChatPopUp  from "./components/Chatbot.jsx";
 import BasicExample from "./components/Table.jsx";
 import Header from "./components/Navbar.jsx";
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
+import Chatbot, { chatBot } from 'react-chatbot-kit';
 import "./App.css";
+import React from 'react';
+import MessageParser from "./components/Chatbot/MessageParser.js";
+import ActionProvider from "./components/Chatbot/ActionProvider.js";
+import config from "./components/Chatbot/Config.js";
 import {usEffect, useState} from 'react';
 // window.something (value) {
 //   this.setState({value})
@@ -17,12 +22,15 @@ function App() {
         <img src="https://d24fkeqntp1r7r.cloudfront.net/wp-content/uploads/2020/11/08041438/Untitled-design-2020-12-08T151337.059.png"></img>
         <a href="#first-section" class="bounce"></a>
       </div>
-<<<<<<< HEAD
     <div class="martin">Proof of Concept??</div>
-=======
+    <div>
+      <header>
+        <Chatbot config={config} messageParser={MessageParser} actionProvider={ActionProvider}/>
+      </header>
+    </div>
 
     
->>>>>>> f19d51e0493894cfc55aa9c9d01f279e9f0fc8e8
+
     {show ? <BasicExample></BasicExample> : null}
     <Button onClick = {() => setShow(show => !show)}>hi</Button>
     <ChatPopUp></ChatPopUp>

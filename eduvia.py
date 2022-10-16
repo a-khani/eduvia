@@ -17,33 +17,7 @@ def toposort(graph, node):
     return result
 
 
-def main():
-    f = open("sample.json")
-    data = json.load(f)['school_details']
-    
-
-    # TODO: take user input to find school
-    school = input("Which school do you attend? \n")
-    
-
-    # TODO: parse the json file and find the school & its corresponding info
-    # parse me pls
-    deets = []
-    for i in range(len(data)):
-        if(data[i]['school'] == school):
-            deets = data[i]
-    
-    # allows unlimited data entries (and automatically discards invalid entries)
-    new_class = ""
-    taken = []
-    while (new_class != "e"):
-        new_class = input("Type a class you've taken (press 'e' to exit): \n")
-        if new_class in deets["classes"]: 
-            taken.append(new_class)
-            
-
-    # ask which course they want to take
-    course = input("Which course do you want to take? \n")
+def classpath(deets, course, time):
 
     # run toposort() on the school with the given course
     path = (list) (reversed(toposort(deets['prereqs'], course)))
@@ -62,29 +36,62 @@ def main():
         if path[i] not in taken:
             remaining.append(path[i])
     
-    # helper function to see if you have enough time to complete prereqs
-    def prereq_check(rem, time_left):
-        t = 0
-        for i in range(len(rem) - 1):
-            if rem[i] in deets["prereqs"][rem[i + 1]]:
-                t += 1
-        if t >= time_left:
-            print("You do not have enough time left to take this course.")
-            print("You would need to finish: " + (str) (remaining))
-        else:
-            print("It's doable! Courses needed: " + (str) (remaining))
+    # see if you have enough time to complete prereqs
+    t = 0
+    for i in range(len(remaining) - 1):
+        if remaining[i] in deets["prereqs"][remaining[i + 1]]:
+            t += 1
+    if t >= time:
+        print("You do not have enough time left to take this course.")
+        print("You would need to finish: " + (str) (remaining))
+    else:
+        print("It's doable! Courses needed: " + (str) (remaining))
 
+
+
+def main():
+    f = open("sample.json")
+    data = json.load(f)['school_details']
+
+    # take user input to find school
+    school = input("Which school do you attend? \n")
+
+    # parse the json file and find the school & its corresponding info
+    deets = []
+    for i in range(len(data)):
+        if(data[i]['school'] == school):
+            deets = data[i]
+    
+    # allows unlimited data entries (and automatically discards invalid entries)
+    new_class = ""
+    taken = []
+    while (new_class != "e"):
+        new_class = input("Type a class you've taken (press 'e' to exit): \n")
+        if new_class in deets["classes"]: 
+            taken.append(new_class)
+            
+
+    # ask which course they want to take
+    course = input("Which course do you want to take? \n")
+
+    if (course in taken): 
+        print("You've already taken that class!")
+        return
+
+    # if you request to take a class that's assumed to have been taken, it'll break the code
+    # don't do that
+    # i will slit you
 
     # check school types, proceed accordingly
-    if (deets["type"] == "hs"): # TODO
-        years = (int) (input("How many years (including this one) do you have left? \n"))
-        prereq_check(remaining, years)
+    if (deets["type"] == "hs"):
+        time = (int) (input("How many years (including this one) do you have left? \n"))
+    else:
+        time = (int) (input("How many semesters (including this one) do you have left? \n"))
 
-    else: # TODO
-        sems = (int) (input("How many semesters (including this one) do you have left? \n"))
-        prereq_check(remaining, sems)
+    classpath(deets, course, time)
 
-main()
+
+
 
 ##### PAST SAMPLE SETS #####
 

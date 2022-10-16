@@ -132,14 +132,15 @@ def main():
     # check school types, proceed accordingly
     if (deets["type"] == "hs"):
         time = (int) (input("How many years (including this one) do you have left? \n"))
+        c = classpath(deets, taken, intended, time)
+        schedule(deets, intended, c)
     else:
         time = (int) (input("How many semesters (including this one) do you have left? \n"))
-
-    paths = [classpath(deets, taken, i, time) for i in intended]
-    intended_courses = paths[0][0]
-    for i in range(1, len(paths)):
-        intended_courses = (merge_two_paths(intended_courses, paths[i][0]))
-    schedule(deets, intended, [intended_courses, time])
+        paths = [classpath(deets, taken, i, time) for i in intended]
+        intended_courses = paths[0][0]
+        for i in range(1, len(paths)):
+            intended_courses = (merge_two_paths(intended_courses, paths[i][0]))
+        schedule(deets, intended, [intended_courses, time])
 
 main()
 

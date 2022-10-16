@@ -22,20 +22,19 @@ def classpath(deets, taken, course, time):
     # run toposort() on the school with the given course
     path = (list) (reversed(toposort(deets['prereqs'], course)))
 
-    # automates clearing out past prereqs if you've taken a more advanced class
-    def assumed_prereqs(took):
-        uptothat = (toposort(deets['prereqs'], took))
-        return [u for u in uptothat if u in path]
-        
-    for i in range(len(taken)):
-        taken.extend(assumed_prereqs(taken[i]))
+    def whats_left(taken):
+        result = []
+        for i in range(len(path)):
+            if path[i] not in taken:
+                result.append(path[i])
+        return result
 
-    # checks which classes you still have remaining
-    remaining = []
-    for i in range(len(path)):
-        if path[i] not in taken:
-            remaining.append(path[i])
-    
+    def one_pt_zero_gpa_behavior():
+        if (deets["type"] == 'hs'):
+            for req in deets["reqs"]:
+                if req not in taken:
+                    print("You won't be able to graduate!")
+                    return
 
     # helper function to see if you have enough time to complete prereqs
     def prereq_check(rem, time_left):
@@ -43,18 +42,43 @@ def classpath(deets, taken, course, time):
         for i in range(len(rem) - 1):
             if rem[i] in deets["prereqs"][rem[i + 1]]:
                 t += 1
-        if (deets["type"] == 'hs'):
-            for req in deets["reqs"]:
-                if req not in taken:
-                    print("You won't be able to graduate!")
-                    return
         if t >= time_left:
             print("You do not have enough time left to take this course.")
-            print("You would need to finish: " + (str) (remaining))
+            print("You would need to finish: " + (str) (rem))
         else:
-            print("It's doable! Courses needed: " + (str) (remaining))
+            print("It's doable! Courses needed: " + (str) (rem))
+        return [rem, time_left]
 
-    prereq_check(remaining, time)
+
+    # automates clearing out past prereqs if you've taken a more advanced class
+    for i in range(len(taken)):
+        uptothat = (toposort(deets['prereqs'], taken[i]))
+        taken.extend([u for u in uptothat if u in path])
+
+    # checks which classes you still have remaining
+    remaining = whats_left(taken)
+
+    one_pt_zero_gpa_behavior()
+    return prereq_check(remaining, time)
+
+
+def schedule(deets, cp):
+    rem, time = cp[0], cp[1]
+    sched = []    
+    j = 0
+    for i in range(time):
+        sched.append([])
+        while j < len(rem) - 1:
+            sched[i].append(rem[j])
+            if (rem[j] not in deets["prereqs"][rem[j + 1]]):
+                sched[i].append(rem[j + 1])    
+            j += 1
+        if rem[-1] in sched[i]:
+            break
+                
+    for sem in range(len(sched)):
+        print("Sem " + (str) (sem + 1) + ": " + (str) (sched[sem]))
+
 
 
 def main():
@@ -95,8 +119,8 @@ def main():
     else:
         time = (int) (input("How many semesters (including this one) do you have left? \n"))
 
-    classpath(deets, taken, course, time)
-
+    cp = classpath(deets, taken, course, time)
+    schedule(deets, cp)
 
 main()
 

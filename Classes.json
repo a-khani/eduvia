@@ -1,0 +1,46 @@
+{
+    "school_details": 
+    [
+      {
+        "school": "UC Berkeley", 
+  
+        "type": "uni",
+      
+        "classes":
+          ["189", "182", "170", "168", "164", "162", "161", "70", "61C", "61B", "61A"],
+          
+        "prereqs":
+        {
+            "189": ["70"],
+            "182": ["61B", "70", "189"],
+            "170": ["61B", "70"],
+            "168": ["162", "61B"],
+            "164": ["61B", "61C"],
+            "162": ["61B", "61C", "70"],
+            "161": ["61C", "70"],
+            "70": [],
+            "61C": ["61B"],
+            "61B": ["61A"],
+            "61A": []
+        }
+      },
+  
+      {
+        "school": "Tracy High",
+  
+        "type": "hs",
+  
+        "classes":
+        ["Algebra 1", "Geometry", "Algebra 2", "Pre-Calculus", "AP Calculus AB", "AP Calculus BC"],
+  
+        "prereqs":
+        {
+          "AP Calculus BC": ["AP Calculus AB"],
+          "AP Calculus AB": ["Algebra 2"],
+          "Pre-Calculus": ["Algebra 2"],
+          "Algebra 2": ["Geometry"],
+          "Geometry": ["Algebra 1"]
+        }
+      }
+    ]
+  }

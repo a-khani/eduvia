@@ -7,6 +7,12 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.chatBotButton {
+  position: 'relative';
+  bottom: 100%;
+  right: 100%;
+}
+
 .bounce {
     position:fixed;
     left:50%;

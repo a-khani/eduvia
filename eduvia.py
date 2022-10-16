@@ -1,5 +1,6 @@
 # credits to this Stackoverflow question for saving lives:
 # https://stackoverflow.com/questions/47192626/deceptively-simple-implementation-of-topological-sorting-in-python
+import json
 
 def toposort(graph, node):
     result = []
@@ -16,17 +17,27 @@ def toposort(graph, node):
     return result
 
 def main():
+    f = open("sample.json")
+    data = json.load(f)['school_details']
+    
+
     # TODO: take user input to find school
     school = input("Which school do you attend? \n")
+    
 
     # TODO: parse the json file and find the school & its corresponding info
     # parse me pls
+    deets = []
+    for i in range(len(data)):
+        if(data[i]['school'] == school):
+            deets = data[i]
+
     
     # TODO: ask which course they want to take
     course = input("Which course do you want to take? \n")
 
     #run toposort() on the school with the given course
-    path = toposort("insert prereqs list here", course)
+    path = toposort(deets['prereqs'], course)
     
     # check school types, proceed accordingly
     if ("school type is HS"): # TODO

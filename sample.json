@@ -87,6 +87,20 @@
             "English 4": ["english"],
             "IB English HL1": ["english"],
             "IB English HL2": ["english"]
+        },
+
+        "reqs": 
+        {
+            "math": 3,
+            "science": 3,
+            "english": 4
+        },
+
+        "min": 
+        {
+            "math": ["Algebra 2"],
+            "science": ["Biology"],
+            "english": ["English 2"]
         }
       },
 
@@ -139,6 +153,20 @@
             "speech": ["english"], 
             "debate": ["english"], 
             "rhetoric": ["english"]
+        },
+
+        "reqs": 
+        {
+            "math": 4,
+            "science": 4,
+            "english": 1
+        },
+
+        "min": 
+        {
+            "math": ["calc 2"],
+            "science": ["chem"],
+            "english": ["eng"]
         }
       }
     ]

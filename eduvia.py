@@ -1,75 +1,46 @@
-#Python program to print topological sorting of a DAG
-from collections import defaultdict
+# credits to this Stackoverflow question for saving lives:
+# https://stackoverflow.com/questions/47192626/deceptively-simple-implementation-of-topological-sorting-in-python
 
-#Class to represent a graph
-class Graph:
-	def __init__(self,vertices):
-		self.graph = defaultdict(list) #dictionary containing adjacency List
-		self.V = vertices #No. of vertices
+def toposort(graph, node):
+    result = []
+    seen = set()
 
-	# function to add an edge to graph
-	def addEdge(self,u,v):
-		self.graph[u].append(v)
+    def recursive_helper(node):
+        for neighbor in graph[node]:
+            if neighbor not in seen:
+                seen.add(neighbor)
+                recursive_helper(neighbor)
+        result.insert(0, node)              # this line replaces the result.append line
 
-	# neighbors generator given key
-	def neighbor_gen(self,v):
-		for k in self.graph[v]:
-			yield k
-	
-	# non recursive topological sort
-	def toposort_util(self, v, visited,stack):
-		
-		# working stack contains key and the corresponding current generator
-		working_stack = [(v,self.neighbor_gen(v))]
-		
-		while working_stack:
-			# get last element from stack
-			v, gen = working_stack.pop()
-			visited[v] = True
-			
-			# run through neighbor generator until it's empty
-			for next_neighbor in gen:
-				if not visited[next_neighbor]: # not seen before?
-					# remember current work
-					working_stack.append((v,gen))
-					# restart with new neighbor
-					working_stack.append((next_neighbor, self.neighbor_gen(next_neighbor)))
-					break
-			else:
-				# no already-visited neighbor (or no more of them)
-				stack.append(v)
-				
-	# The function to do Topological Sort.
-	def toposort(self):
-		# Mark all the vertices as not visited
-		visited = [False] * self.V
-		
-		# result stack
-		stack = []
+    recursive_helper(node)
+    return result
 
-		# Call the helper function to store Topological
-		# Sort starting from all vertices one by one
-		for i in range(self.V):
-			if not(visited[i]):
-				self.toposort_util(i, visited, stack)
-		# Print contents of the stack in reverse
-		stack.reverse()
-		print(stack)
+# graph = {'A':['B','C'],'B':['D','E'],'C':['D','E'],'D':['E'],'E':['A']}
+# print(toposort(graph, 'A'))
 
-# g= Graph(6)
-# g.addEdge(5, 2)
-# g.addEdge(5, 0)
-# g.addEdge(4, 0)
-# g.addEdge(4, 1)
-# g.addEdge(2, 3)
-# g.addEdge(3, 1)
+# courses = {
+#         '54': ['1B'], 
+#         '53': ['1B'],
+#         '1B': ['1A'],
+#         '1A': []
+#         }
+# print(toposort(courses, '54'))
 
-c = Graph(4)
-c.addEdge("Math 1A", "Math 1B")
-c.addEdge("Math 1B", "Math 53")
-c.addEdge("Math 1B", "Math 54")
+berkeley_cs = {
+    '189': ['70'],
+    '182': ['61B', '70', '189'],
+    '170': ['61B', '70'],
+    '168': ['162', '61B'],
+    '164': ['61B', '61C'],
+    '162': ['61B', '61C', '70'],
+    '161': ['61C', '70'],
+    '70': [],
+    '61C': ['61B'],
+    '61B': ['61A'],
+    '61A': []
+}
 
-print("The following is a Topological Sort of the given graph")
-# g.toposort()
-c.toposort()
-# This code was based of Neelam Yadav's code, modified by Suhail Alnahari, Python-ified by Matthias Urlichhs
+print("CS 182: " + (str) (toposort(berkeley_cs, '182')))
+print("CS 168: " + (str) (toposort(berkeley_cs, '168')))
+print("CS 162: " + (str) (toposort(berkeley_cs, '162')))
+print("CS 70: " + (str) (toposort(berkeley_cs, '70')))

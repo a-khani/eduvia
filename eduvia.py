@@ -22,12 +22,11 @@ def main():
     data = json.load(f)['school_details']
     
 
-    # TODO: take user input to find school
+    # take user input to find school
     school = input("Which school do you attend? \n")
     
 
-    # TODO: parse the json file and find the school & its corresponding info
-    # parse me pls
+    # parse the json file and find the school & its corresponding info
     deets = []
     for i in range(len(data)):
         if(data[i]['school'] == school):
@@ -44,6 +43,14 @@ def main():
 
     # ask which course they want to take
     course = input("Which course do you want to take? \n")
+
+    if (course in taken): 
+        print("You've already taken that class!")
+        return
+
+    # if you request to take a class that's assumed to have been taken, it'll break the code
+    # don't do that
+    # i will slit you
 
     # run toposort() on the school with the given course
     path = (list) (reversed(toposort(deets['prereqs'], course)))
@@ -76,11 +83,11 @@ def main():
 
 
     # check school types, proceed accordingly
-    if (deets["type"] == "hs"): # TODO
+    if (deets["type"] == "hs"):
         years = (int) (input("How many years (including this one) do you have left? \n"))
         prereq_check(remaining, years)
 
-    else: # TODO
+    else:
         sems = (int) (input("How many semesters (including this one) do you have left? \n"))
         prereq_check(remaining, sems)
 

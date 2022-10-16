@@ -71,9 +71,15 @@ def schedule(deets, cp):
         while j < len(rem) - 1:
             sched[i].append(rem[j])
             if (rem[j] not in deets["prereqs"][rem[j + 1]]):
-                sched[i].append(rem[j + 1])    
+                sched[i].append(rem[j + 1])
+                j += 1
+            else:
+                j += 1
+                break  
+        if j == len(rem) - 1:
             j += 1
-        if rem[-1] in sched[i]:
+        elif j == len(rem):
+            sched[i].append(rem[j - 1])
             break
                 
     for sem in range(len(sched)):

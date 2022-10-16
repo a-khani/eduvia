@@ -1,13 +1,13 @@
 import React from "react";
 import { createChatBotMessage } from "react-chatbot-kit";
 
-import Options from "../components/Options/Options";
-import Quiz from "../components/Quiz/Quiz";
+import Options from "../../chatbotqs/Options/Options";
+import Quiz from "../../chatbotqs/Quiz/Quiz";
 
 const config = {
-  botName: "LearningBot",
+  botName: "Via",
   initialMessages: [
-    createChatBotMessage(`Hello. What do you want to learn`, {
+    createChatBotMessage(`What is your school name?`, {
       widget: "options",
     }),
   ],
@@ -22,16 +22,22 @@ const config = {
       props: {
         questions: [
           {
-            question: "What is closure?",
+            question: "How many years do you have left?",
             answer:
-              "Closure is a way for a function to retain access to it's enclosing function scope after the execution of that function is finished.",
+              "3",
             id: 1,
           },
           {
-            question: "Explain prototypal inheritance",
+            question: "What classes have you taken?",
             answer:
-              "Prototypal inheritance is a link between an object and an object store that holds shared properties. If a property is not found on the host object, javascript will check the prototype object.",
-            id: 2,
+              "CS 61A",
+            id: 1,
+          },
+          {
+            question: "Any courses in particular you want to take?",
+            answer:
+              "CS 61C",
+            id: 1,
           },
         ],
       },

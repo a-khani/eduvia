@@ -95,6 +95,8 @@ def merge_two_paths(list_1, list_2):
 def main():
     f = open("sample.json")
     data = json.load(f)['school_details']
+    f2 = open("integrate_.json")
+    integrate = json.load(f2)
 
     # take user input to find school
     school = input("Which school do you attend? \n")

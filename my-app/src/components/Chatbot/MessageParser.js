@@ -8,7 +8,8 @@ class MessageParser {
       const lowercase = message.toLowerCase();
   
       if (lowercase.includes("hello") || lowercase.includes("hi")) {
-        this.actionProvider.greet();
+        this.actionProvider.handleSchool()
+        this.actionProvider.greet();;
       }
   
       if (lowercase.includes("javascript") || lowercase.includes("js")) {

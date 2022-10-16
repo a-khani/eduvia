@@ -17,7 +17,7 @@ class Graph:
 			yield k
 	
 	# non recursive topological sort
-	def nonRecursiveTopologicalSortUtil(self, v, visited,stack):
+	def toposort_util(self, v, visited,stack):
 		
 		# working stack contains key and the corresponding current generator
 		working_stack = [(v,self.neighbor_gen(v))]
@@ -40,9 +40,9 @@ class Graph:
 				stack.append(v)
 				
 	# The function to do Topological Sort.
-	def nonRecursiveTopologicalSort(self):
+	def toposort(self):
 		# Mark all the vertices as not visited
-		visited = [False]*self.V
+		visited = [False] * self.V
 		
 		# result stack
 		stack = []
@@ -51,19 +51,25 @@ class Graph:
 		# Sort starting from all vertices one by one
 		for i in range(self.V):
 			if not(visited[i]):
-				self.nonRecursiveTopologicalSortUtil(i, visited,stack)
+				self.toposort_util(i, visited, stack)
 		# Print contents of the stack in reverse
 		stack.reverse()
 		print(stack)
 
-g= Graph(6)
-g.addEdge(5, 2)
-g.addEdge(5, 0)
-g.addEdge(4, 0)
-g.addEdge(4, 1)
-g.addEdge(2, 3)
-g.addEdge(3, 1)
+# g= Graph(6)
+# g.addEdge(5, 2)
+# g.addEdge(5, 0)
+# g.addEdge(4, 0)
+# g.addEdge(4, 1)
+# g.addEdge(2, 3)
+# g.addEdge(3, 1)
+
+c = Graph(4)
+c.addEdge("Math 1A", "Math 1B")
+c.addEdge("Math 1B", "Math 53")
+c.addEdge("Math 1B", "Math 54")
 
 print("The following is a Topological Sort of the given graph")
-g.nonRecursiveTopologicalSort()
+# g.toposort()
+c.toposort()
 # This code was based of Neelam Yadav's code, modified by Suhail Alnahari, Python-ified by Matthias Urlichhs

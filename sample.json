@@ -31,15 +31,142 @@
         "type": "hs",
   
         "classes":
-        ["Algebra 1", "Geometry", "Algebra 2", "Pre-Calculus", "AP Calculus AB", "AP Calculus BC"],
+        ["Algebra 1", "Geometry", "Algebra 2", "Pre-Calculus", "AP Calculus AB", "AP Calculus BC",
+        "Biology", "Chemistry", "Physics", "IB Biology HL1", "IB Biology HL2", "IB Chemistry", "IB Physics",
+        "English 1", "English 2", "English 3", "English 4", "IB English HL1", "IB English HL2"],
+
+        "designation":
+        ["G", "H", "AP"],
   
         "prereqs":
         {
-          "AP Calculus BC": ["AP Calculus AB"],
-          "AP Calculus AB": ["Algebra 2"],
-          "Pre-Calculus": ["Algebra 2"],
-          "Algebra 2": ["Geometry"],
-          "Geometry": ["Algebra 1"]
+            "Algebra 1": [],
+            "Geometry": ["Algebra 1"],
+            "Algebra 2": [" Geometry"],
+            "Pre-Calculus": ["Algebra 2"],
+            "AP Calculus AB": ["Algebra 2"],
+            "AP Calculus BC": ["AP Calculus AB"],
+            
+
+            "Biology": [],
+            "Chemistry": ["Biology"],
+            "Physics": ["Biology"],
+            "IB Biology HL1": ["Biology"],
+            "IB Biology HL2": ["IB Biology HL1"],
+            "IB Chemistry": ["Chemistry"],
+            "IB Physics": ["Physics"],
+
+            "English 1": [],
+            "English 2": ["English 1"],
+            "English 3": ["English 2"],
+            "English 4": ["English 3"],
+            "IB English HL1": ["English 2"],
+            "IB English HL2": ["IB English HL1"]
+        },
+
+        "field":
+        {
+            "AP Calculus BC": ["math"],
+            "AP Calculus AB": ["math"],
+            "Pre-Calculus": ["math"],
+            "Algebra 2": ["math"],
+            "Geometry": ["math"],
+            "Algebra 1": ["math"],
+
+            "Biology": ["science"],
+            "Chemistry": ["science"],
+            "Physics": ["science"],
+            "IB Biology HL1": ["science"],
+            "IB Biology HL2": ["science"],
+            "IB Chemistry": ["science"],
+            "IB Physics": ["science"],
+
+            "English 1": ["english"],
+            "English 2": ["english"],
+            "English 3": ["english"],
+            "English 4": ["english"],
+            "IB English HL1": ["english"],
+            "IB English HL2": ["english"]
+        },
+
+        "reqs": 
+        {
+            "math": 3,
+            "science": 3,
+            "english": 4
+        },
+
+        "min": 
+        {
+            "math": ["Algebra 2"],
+            "science": ["Biology"],
+            "english": ["English 2"]
+        }
+      },
+
+      {
+        "school": "lowercase stem high",
+  
+        "type": "hs",
+  
+        "classes":
+        ["calc 1", "calc 2", "calc 3", "lin alg",
+        "bio", "chem", "physics", "astro", "cs",
+        "eng", "speech", "debate", "rhetoric"],
+
+        "designation":
+        ["avg", "meh"],
+  
+        "prereqs":
+        {
+            "calc 1": [], 
+            "calc 2": ["calc 1"], 
+            "multivar calc": ["calc 2"], 
+            "linear algebra": ["calc 2"],
+
+            "bio": ["calc 1"], 
+            "chem": ["bio", "calc 2"],
+            "physics": ["calc 3", "chem"], 
+            "astro": ["physics", "calc 2"], 
+            "cs": ["lin alg", "eng"],
+
+            "eng": ["calc 1"], 
+            "speech": ["bio", "eng"], 
+            "debate": ["speech"], 
+            "rhetoric": ["eng", "cs"]
+        },
+
+        "field":
+        {
+            "calc 1": ["math"], 
+            "calc 2": ["math"], 
+            "multivar calc": ["math"], 
+            "linear algebra": ["math"], 
+
+            "bio": ["science"],  
+            "chem": ["science"], 
+            "physics": ["science"], 
+            "astro": ["science"], 
+            "cs": ["science"], 
+
+            "eng": ["english"], 
+            "speech": ["english"], 
+            "debate": ["english"], 
+            "rhetoric": ["english"]
+        },
+
+        "reqs": 
+        {
+            "math": 4,
+            "science": 4,
+            "english": 1
+        },
+
+        "min": 
+        {
+            "math": ["calc 2"],
+            "science": ["chem"],
+            "english": ["eng"]
         }
       }
     ]

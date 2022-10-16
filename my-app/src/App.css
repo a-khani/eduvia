@@ -7,6 +7,12 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.chatBotButton {
+  position: 'relative';
+  bottom: 100%;
+  right: 100%;
+}
+
 .bounce {
     position:fixed;
     left:50%;
@@ -23,7 +29,14 @@
     animation:bounce 1s infinite;
 
   }
-  
+  .martin {
+    position: relative;
+    top: -820px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #f2f2f2;
+  }
   @-webkit-keyframes bounce {
     0%       { bottom:0px; }
     50%      { bottom:15px; }
@@ -49,7 +62,7 @@
   }
 .dummy-text img {
     width: auto;
-    margin-top: 70%;
+    margin-top: 60%;
 }
 a:link {
     text-decoration: none;
@@ -305,7 +318,7 @@ nav .content .links{
 
 .dummy-text{
   position: relative;
-  top: 15%;
+  top: 50%;
   left: 50%;
   width: 100%;
   z-index: -1;
@@ -322,6 +335,11 @@ nav .content .links{
 
 .App {
   text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-logo {

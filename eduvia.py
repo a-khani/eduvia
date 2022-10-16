@@ -16,68 +16,163 @@ def toposort(graph, node):
     recursive_helper(node)
     return result
 
+# CLASSPATH
+# finds what path is needed for getting to a class based on given TAKEN class list
+def classpath(deets, taken, course, time):
+    # run toposort() on the school with the given course
+    path = (list) (reversed(toposort(deets['prereqs'], course)))
+
+    def whats_left(taken):
+        result = []
+        for i in range(len(path)):
+            if path[i] not in taken:
+                result.append(path[i])
+        return result
+
+    def one_pt_zero_gpa_behavior():
+        if (deets["type"] == 'hs'):
+            for req in deets["reqs"]:
+                if req not in taken:
+                    print("You won't be able to graduate!")
+                    return
+
+    # helper function to see if you have enough time to complete prereqs
+    def prereq_check(rem, time_left):
+        t = 0
+        for i in range(len(rem) - 1):
+            if rem[i] in deets["prereqs"][rem[i + 1]]:
+                t += 1
+        if t >= time_left:
+            print("You do not have enough time left to take this course.")
+            print("You would need to finish: " + (str) (rem))
+        else:
+            print("It's doable! Courses needed: " + (str) (rem))
+        return [rem, time_left]
+
+
+    # automates clearing out past prereqs if you've taken a more advanced class
+    for i in range(len(taken)):
+        uptothat = (toposort(deets['prereqs'], taken[i]))
+        taken.extend([u for u in uptothat if u in path])
+
+    # checks which classes you still have remaining
+    remaining = whats_left(taken)
+
+    one_pt_zero_gpa_behavior()
+    return prereq_check(remaining, time)
+
+
+def schedule(deets, int, cp):
+    rem, time = cp[0], cp[1]
+    # print("Total courses required: " + (str) (rem))
+    sched = []    
+    j = 0
+    for i in range(time):
+        sched.append([])
+        while j < len(rem) - 1:
+            sched[i].append(rem[j])
+            if (rem[j] not in deets["prereqs"][rem[j + 1]]):
+                sched[i].append(rem[j + 1])
+                j += 1
+            else:
+                j += 1
+                break  
+        if j == len(rem) - 1:
+            j += 1
+        elif j == len(rem):
+            sched[i].append(rem[j - 1])
+            break
+                
+    for sem in range(len(sched)):
+        print("Sem " + (str) (sem + 1) + ": " + (str) (sched[sem]))
+
+def merge_two_paths(list_1, list_2):
+    combined = list_1 + list_2
+    combined = list(set(combined))
+    return combined
+
+
 def main():
     f = open("sample.json")
     data = json.load(f)['school_details']
-    
 
-    # TODO: take user input to find school
+    # take user input to find school
     school = input("Which school do you attend? \n")
-    
 
-    # TODO: parse the json file and find the school & its corresponding info
-    # parse me pls
+    # parse the json file and find the school & its corresponding info
     deets = []
     for i in range(len(data)):
         if(data[i]['school'] == school):
             deets = data[i]
-
     
-    # TODO: ask which course they want to take
-    course = input("Which course do you want to take? \n")
+    # allows unlimited data entries (and automatically discards invalid entries)
+    new_class = ""
+    taken = []
+    while (new_class != "e"):
+        new_class = input("Type a class you've taken (press 'e' to exit): \n")
+        if new_class in deets["classes"]: 
+            taken.append(new_class)
+            
+    # ask which course they want to take
+    course = ""
+    intended = []
+    course = input("Which class do you want to take? \n")
+    intended.append(course)
+    # while (course != "e"):
+    #     course = input("Type a class you want to take (press 'e' to exit) \n")
+    #     if (course in taken): 
+    #         print("You've already taken that class!")
+    #     elif course in deets["classes"]:
+    #         intended.append(course)
 
-    #run toposort() on the school with the given course
-    path = toposort(deets['prereqs'], course)
-    
+    # if you request to take a class that's assumed to have been taken, it'll break the code
+    # don't do that
+    # i will slit you
+
     # check school types, proceed accordingly
-    if ("school type is HS"): # TODO
-        years = input("How many years (including this one) do you have left? \n")
+    if (deets["type"] == "hs"):
+        time = (int) (input("How many years (including this one) do you have left? \n"))
+        c = classpath(deets, taken, intended, time)
+        schedule(deets, intended, c)
+    else:
+        time = (int) (input("How many semesters (including this one) do you have left? \n"))
+        paths = [classpath(deets, taken, i, time) for i in intended]
+        intended_courses = paths[0][0]
+        for i in range(1, len(paths)):
+            intended_courses = (merge_two_paths(intended_courses, paths[i][0]))
+        schedule(deets, intended, [intended_courses, time])
 
-        print(path[:years]) # TODO: make it print actual path
+main()
 
-    elif ("school type is UNI"): # TODO
-        sems = input("How many semesters (including this one) do you have left? \n")
-        
-        print(path[:sems]) # TODO: make it print actual path
-
+##### PAST SAMPLE SETS #####
 
 # graph = {'A':['B','C'],'B':['D','E'],'C':['D','E'],'D':['E'],'E':['A']}
 # print(toposort(graph, 'A'))
 
-courses = {
-        '54': ['1B'], 
-        '53': ['1B'],
-        '1B': ['1A'],
-        '1A': []
-        }
-print(toposort(courses, '54'))
+# courses = {
+#         '54': ['1B'], 
+#         '53': ['1B'],
+#         '1B': ['1A'],
+#         '1A': []
+#         }
+# print(toposort(courses, '54'))
 
-berkeley_cs = {
-    '189': ['70'],
-    '182': ['61B', '70', '189'],
-    '170': ['61B', '70'],
-    '168': ['162', '61B'],
-    '164': ['61B', '61C'],
-    '162': ['61B', '61C', '70'],
-    '161': ['61C', '70'],
-    '70': [],
-    '61C': ['61B'],
-    '61B': ['61A'],
-    '61A': []
-}
+# berkeley_cs = {
+#     '189': ['70'],
+#     '182': ['61B', '70', '189'],
+#     '170': ['61B', '70'],
+#     '168': ['162', '61B'],
+#     '164': ['61B', '61C'],
+#     '162': ['61B', '61C', '70'],
+#     '161': ['61C', '70'],
+#     '70': [],
+#     '61C': ['61B'],
+#     '61B': ['61A'],
+#     '61A': []
+# }
 
-course = input("Which class? \n")
-result = []
-for i in range(4):
-    result.insert(0, toposort(berkeley_cs, course)[i])
-print("CS " + course + ": " + (str)(result))
+# course = input("Which class? \n")
+# result = (list) (reversed(toposort(berkeley_cs, course)))
+# print("CS " + course + ": " + (str)(result))
+
+# print("\n")

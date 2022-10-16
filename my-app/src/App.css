@@ -311,7 +311,7 @@ nav .content .links{
 
 .dummy-text{
   position: relative;
-  top: 15%;
+  top: 50%;
   left: 50%;
   width: 100%;
   z-index: -1;
@@ -328,6 +328,11 @@ nav .content .links{
 
 .App {
   text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-logo {

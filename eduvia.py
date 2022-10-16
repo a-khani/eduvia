@@ -85,7 +85,8 @@ def schedule(deets, cp):
     for sem in range(len(sched)):
         print("Sem " + (str) (sem + 1) + ": " + (str) (sched[sem]))
 
-
+def merge_two_paths(two_paths):
+    return two_paths[0] + list(set(paths[1]) - set(paths[0]))
 
 def main():
     f = open("sample.json")
@@ -109,11 +110,14 @@ def main():
             taken.append(new_class)
             
     # ask which course they want to take
-    course = input("Which course do you want to take? \n")
-
-    if (course in taken): 
-        print("You've already taken that class!")
-        return
+    course = ""
+    intended = []
+    while (course != "e"):
+        course = input("Type a class you want to take (press 'e' to exit) \n")
+        if (course in taken): 
+            print("You've already taken that class!")
+        elif course in deets["classes"]:
+            intended.append(course)
 
     # if you request to take a class that's assumed to have been taken, it'll break the code
     # don't do that
@@ -125,8 +129,11 @@ def main():
     else:
         time = (int) (input("How many semesters (including this one) do you have left? \n"))
 
-    cp = classpath(deets, taken, course, time)
-    schedule(deets, cp)
+    paths = [classpath(deets, taken, i, time) for i in intended]
+    intended_courses = paths[0]
+    for i in range(1, len(paths)):
+        intended_courses = merge_two_paths([intended_courses, paths[i]])
+    schedule(deets, intended_courses)
 
 main()
 

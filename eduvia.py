@@ -17,7 +17,7 @@ def toposort(graph, node):
     return result
 
 
-def classpath(deets, course, time):
+def classpath(deets, taken, course, time):
 
     # run toposort() on the school with the given course
     path = (list) (reversed(toposort(deets['prereqs'], course)))
@@ -88,7 +88,7 @@ def main():
     else:
         time = (int) (input("How many semesters (including this one) do you have left? \n"))
 
-    classpath(deets, course, time)
+    classpath(deets, taken, course, time)
 
 
 

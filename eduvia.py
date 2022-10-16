@@ -86,7 +86,7 @@ def schedule(deets, cp):
         print("Sem " + (str) (sem + 1) + ": " + (str) (sched[sem]))
 
 def merge_two_paths(two_paths):
-    return two_paths[0] + list(set(paths[1]) - set(paths[0]))
+    return two_paths[0] + list(set(two_paths[1]) - set(two_paths[0]))
 
 def main():
     f = open("sample.json")

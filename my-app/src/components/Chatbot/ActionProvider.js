@@ -22,6 +22,20 @@ class ActionProvider {
     this.setChatbotMessage(message)
   }
 
+  integrateHandler = () => {
+    
+
+      console.log("state");
+      const fileData = JSON.stringify(this.state);
+      const blob = new Blob([fileData], {type: "text/plain"});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = `${"integrate"}".json`;
+      link.href = url;
+      link.click();
+  
+}
+
   preferenceHandler = () => {
     const message = this.createChatBotMessage("Dope, Thanks cool kid.")
     this.setChatbotMessage(message)
@@ -29,5 +43,6 @@ class ActionProvider {
 
 
 }
+
 
   export default ActionProvider;

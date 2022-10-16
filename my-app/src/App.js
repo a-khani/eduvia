@@ -5,6 +5,10 @@ import Button from 'react-bootstrap/Button';
 import Chatbot, { chatBot } from 'react-chatbot-kit';
 import "./App.css";
 import { useEffect, useState } from 'react';
+import MessageParser from "./components/Chatbot/MessageParser.js";
+import ActionProvider from "./components/Chatbot/ActionProvider.js";
+import config from "./components/Chatbot/Config.js";
+
 
 // window.something (value) {
 //   this.setState({value})

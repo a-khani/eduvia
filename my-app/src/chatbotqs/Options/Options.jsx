@@ -4,13 +4,8 @@ import "./Options.css";
 
 const Options = (props) => {
   const options = [
-    {
-      text: "Javascript",
-      handler: props.actionProvider.handleJavascriptQuiz,
-      id: 1,
-    },
-    { text: "Python", handler: () => {}, id: 2 },
-    { text: "Golang", handler: () => {}, id: 3 },
+    { text: "Tracy High", handler: props.actionProvider.handleTracyHigh, id: 1 },
+    { text: "stem high", handler: () => {}, id: 2 },
   ];
 
   const buttonsMarkup = options.map((option) => (

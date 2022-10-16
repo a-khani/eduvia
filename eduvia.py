@@ -16,38 +16,77 @@ def toposort(graph, node):
     recursive_helper(node)
     return result
 
-
-def classpath(deets, course, time):
-
+# CLASSPATH
+# finds what path is needed for getting to a class based on given TAKEN class list
+def classpath(deets, taken, course, time):
     # run toposort() on the school with the given course
     path = (list) (reversed(toposort(deets['prereqs'], course)))
 
+    def whats_left(taken):
+        result = []
+        for i in range(len(path)):
+            if path[i] not in taken:
+                result.append(path[i])
+        return result
+
+    def one_pt_zero_gpa_behavior():
+        if (deets["type"] == 'hs'):
+            for req in deets["reqs"]:
+                if req not in taken:
+                    print("You won't be able to graduate!")
+                    return
+
+    # helper function to see if you have enough time to complete prereqs
+    def prereq_check(rem, time_left):
+        t = 0
+        for i in range(len(rem) - 1):
+            if rem[i] in deets["prereqs"][rem[i + 1]]:
+                t += 1
+        if t >= time_left:
+            print("You do not have enough time left to take this course.")
+            print("You would need to finish: " + (str) (rem))
+        else:
+            print("It's doable! Courses needed: " + (str) (rem))
+        return [rem, time_left]
+
+
     # automates clearing out past prereqs if you've taken a more advanced class
-    def assumed_prereqs(took):
-        uptothat = (toposort(deets['prereqs'], took))
-        return [u for u in uptothat if u in path]
-        
     for i in range(len(taken)):
-        taken.extend(assumed_prereqs(taken[i]))
+        uptothat = (toposort(deets['prereqs'], taken[i]))
+        taken.extend([u for u in uptothat if u in path])
 
     # checks which classes you still have remaining
-    remaining = []
-    for i in range(len(path)):
-        if path[i] not in taken:
-            remaining.append(path[i])
-    
-    # see if you have enough time to complete prereqs
-    t = 0
-    for i in range(len(remaining) - 1):
-        if remaining[i] in deets["prereqs"][remaining[i + 1]]:
-            t += 1
-    if t >= time:
-        print("You do not have enough time left to take this course.")
-        print("You would need to finish: " + (str) (remaining))
-    else:
-        print("It's doable! Courses needed: " + (str) (remaining))
+    remaining = whats_left(taken)
+
+    one_pt_zero_gpa_behavior()
+    return prereq_check(remaining, time)
 
 
+def schedule(deets, cp):
+    rem, time = cp[0], cp[1]
+    sched = []    
+    j = 0
+    for i in range(time):
+        sched.append([])
+        while j < len(rem) - 1:
+            sched[i].append(rem[j])
+            if (rem[j] not in deets["prereqs"][rem[j + 1]]):
+                sched[i].append(rem[j + 1])
+                j += 1
+            else:
+                j += 1
+                break  
+        if j == len(rem) - 1:
+            j += 1
+        elif j == len(rem):
+            sched[i].append(rem[j - 1])
+            break
+                
+    for sem in range(len(sched)):
+        print("Sem " + (str) (sem + 1) + ": " + (str) (sched[sem]))
+
+def merge_two_paths(two_paths):
+    return two_paths[0] + list(set(two_paths[1]) - set(two_paths[0]))
 
 def main():
     f = open("sample.json")
@@ -70,13 +109,15 @@ def main():
         if new_class in deets["classes"]: 
             taken.append(new_class)
             
-
     # ask which course they want to take
-    course = input("Which course do you want to take? \n")
-
-    if (course in taken): 
-        print("You've already taken that class!")
-        return
+    course = ""
+    intended = []
+    while (course != "e"):
+        course = input("Type a class you want to take (press 'e' to exit) \n")
+        if (course in taken): 
+            print("You've already taken that class!")
+        elif course in deets["classes"]:
+            intended.append(course)
 
     # if you request to take a class that's assumed to have been taken, it'll break the code
     # don't do that
@@ -88,10 +129,13 @@ def main():
     else:
         time = (int) (input("How many semesters (including this one) do you have left? \n"))
 
-    classpath(deets, course, time)
+    paths = [classpath(deets, taken, i, time) for i in intended]
+    intended_courses = paths[0]
+    for i in range(1, len(paths)):
+        intended_courses = merge_two_paths([intended_courses, paths[i]])
+    schedule(deets, intended_courses)
 
-
-
+main()
 
 ##### PAST SAMPLE SETS #####
 

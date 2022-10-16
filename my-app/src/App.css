@@ -29,7 +29,14 @@
     animation:bounce 1s infinite;
 
   }
-  
+  .martin {
+    position: relative;
+    top: -820px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #f2f2f2;
+  }
   @-webkit-keyframes bounce {
     0%       { bottom:0px; }
     50%      { bottom:15px; }
@@ -55,7 +62,7 @@
   }
 .dummy-text img {
     width: auto;
-    margin-top: 70%;
+    margin-top: 60%;
 }
 a:link {
     text-decoration: none;

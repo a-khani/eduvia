@@ -16,6 +16,7 @@ def toposort(graph, node):
     recursive_helper(node)
     return result
 
+
 def main():
     f = open("sample.json")
     data = json.load(f)['school_details']
@@ -32,6 +33,7 @@ def main():
         if(data[i]['school'] == school):
             deets = data[i]
     
+    # allows unlimited data entries (and automatically discards invalid entries)
     new_class = ""
     taken = []
     while (new_class != "e"):
@@ -40,12 +42,13 @@ def main():
             taken.append(new_class)
             
 
-    # TODO: ask which course they want to take
+    # ask which course they want to take
     course = input("Which course do you want to take? \n")
 
-    #run toposort() on the school with the given course
+    # run toposort() on the school with the given course
     path = (list) (reversed(toposort(deets['prereqs'], course)))
 
+    # automates clearing out past prereqs if you've taken a more advanced class
     def assumed_prereqs(took):
         uptothat = (toposort(deets['prereqs'], took))
         return [u for u in uptothat if u in path]
@@ -53,11 +56,13 @@ def main():
     for i in range(len(taken)):
         taken.extend(assumed_prereqs(taken[i]))
 
+    # checks which classes you still have remaining
     remaining = []
     for i in range(len(path)):
         if path[i] not in taken:
             remaining.append(path[i])
     
+    # helper function to see if you have enough time to complete prereqs
     def prereq_check(rem, time_left):
         t = 0
         for i in range(len(rem) - 1):
@@ -69,6 +74,7 @@ def main():
         else:
             print("It's doable! Courses needed: " + (str) (remaining))
 
+
     # check school types, proceed accordingly
     if (deets["type"] == "hs"): # TODO
         years = (int) (input("How many years (including this one) do you have left? \n"))
@@ -78,6 +84,9 @@ def main():
         sems = (int) (input("How many semesters (including this one) do you have left? \n"))
         prereq_check(remaining, sems)
 
+main()
+
+##### PAST SAMPLE SETS #####
 
 # graph = {'A':['B','C'],'B':['D','E'],'C':['D','E'],'D':['E'],'E':['A']}
 # print(toposort(graph, 'A'))
@@ -109,5 +118,3 @@ def main():
 # print("CS " + course + ": " + (str)(result))
 
 # print("\n")
-
-main()

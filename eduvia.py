@@ -62,8 +62,9 @@ def classpath(deets, taken, course, time):
     return prereq_check(remaining, time)
 
 
-def schedule(deets, cp):
+def schedule(deets, int, cp):
     rem, time = cp[0], cp[1]
+    # print("Total courses required: " + (str) (rem))
     sched = []    
     j = 0
     for i in range(time):
@@ -85,8 +86,11 @@ def schedule(deets, cp):
     for sem in range(len(sched)):
         print("Sem " + (str) (sem + 1) + ": " + (str) (sched[sem]))
 
-def merge_two_paths(two_paths):
-    return two_paths[0] + list(set(two_paths[1]) - set(two_paths[0]))
+def merge_two_paths(list_1, list_2):
+    combined = list_1 + list_2
+    combined = list(set(combined))
+    return combined
+
 
 def main():
     f = open("sample.json")
@@ -112,12 +116,14 @@ def main():
     # ask which course they want to take
     course = ""
     intended = []
-    while (course != "e"):
-        course = input("Type a class you want to take (press 'e' to exit) \n")
-        if (course in taken): 
-            print("You've already taken that class!")
-        elif course in deets["classes"]:
-            intended.append(course)
+    course = input("Which class do you want to take? \n")
+    intended.append(course)
+    # while (course != "e"):
+    #     course = input("Type a class you want to take (press 'e' to exit) \n")
+    #     if (course in taken): 
+    #         print("You've already taken that class!")
+    #     elif course in deets["classes"]:
+    #         intended.append(course)
 
     # if you request to take a class that's assumed to have been taken, it'll break the code
     # don't do that
@@ -130,10 +136,10 @@ def main():
         time = (int) (input("How many semesters (including this one) do you have left? \n"))
 
     paths = [classpath(deets, taken, i, time) for i in intended]
-    intended_courses = paths[0]
+    intended_courses = paths[0][0]
     for i in range(1, len(paths)):
-        intended_courses = merge_two_paths([intended_courses, paths[i]])
-    schedule(deets, intended_courses)
+        intended_courses = (merge_two_paths(intended_courses, paths[i][0]))
+    schedule(deets, intended, [intended_courses, time])
 
 main()
 

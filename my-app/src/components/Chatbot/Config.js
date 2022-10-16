@@ -2,23 +2,26 @@ import React from "react";
 import { createChatBotMessage } from "react-chatbot-kit";
 
 import Options from "../../chatbotqs/Options/Options";
-import Quiz from "../../chatbotqs/Quiz/Quiz";
+import Options1 from "../../chatbotqs/Quiz/Quiz";
+import Greets from "../../chatbotqs/Options/Greets";
 
 const config = {
   botName: "Via",
   initialMessages: [
-    createChatBotMessage(`What is your school name?`, {
-      widget: "options",
+    createChatBotMessage(`Hi, I'm Via!`, {
+      widget: "greets",
     }),
   ],
   widgets: [
     {
+      widgetName: "greets",
+      widgetFunc: (props) => <Greets {...props} />,
       widgetName: "options",
       widgetFunc: (props) => <Options {...props} />,
     },
     {
-      widgetName: "javascriptQuiz",
-      widgetFunc: (props) => <Quiz {...props} />,
+      widgetName: "options1",
+      widgetFunc: (props) => <Options1 {...props} />,
       props: {
         questions: [
           {

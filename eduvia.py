@@ -17,44 +17,14 @@ def toposort(graph, node):
     return result
 
 
-def classpath(deets, taken, course, time):
-
-    # run toposort() on the school with the given course
-    path = (list) (reversed(toposort(deets['prereqs'], course)))
-
-    # automates clearing out past prereqs if you've taken a more advanced class
-    def assumed_prereqs(took):
-        uptothat = (toposort(deets['prereqs'], took))
-        return [u for u in uptothat if u in path]
-        
-    for i in range(len(taken)):
-        taken.extend(assumed_prereqs(taken[i]))
-
-    # checks which classes you still have remaining
-    remaining = []
-    for i in range(len(path)):
-        if path[i] not in taken:
-            remaining.append(path[i])
-    
-    # see if you have enough time to complete prereqs
-    t = 0
-    for i in range(len(remaining) - 1):
-        if remaining[i] in deets["prereqs"][remaining[i + 1]]:
-            t += 1
-    if t >= time:
-        print("You do not have enough time left to take this course.")
-        print("You would need to finish: " + (str) (remaining))
-    else:
-        print("It's doable! Courses needed: " + (str) (remaining))
-
-
-
 def main():
     f = open("sample.json")
     data = json.load(f)['school_details']
+    
 
     # take user input to find school
     school = input("Which school do you attend? \n")
+    
 
     # parse the json file and find the school & its corresponding info
     deets = []
@@ -82,16 +52,46 @@ def main():
     # don't do that
     # i will slit you
 
+    # run toposort() on the school with the given course
+    path = (list) (reversed(toposort(deets['prereqs'], course)))
+
+    # automates clearing out past prereqs if you've taken a more advanced class
+    def assumed_prereqs(took):
+        uptothat = (toposort(deets['prereqs'], took))
+        return [u for u in uptothat if u in path]
+        
+    for i in range(len(taken)):
+        taken.extend(assumed_prereqs(taken[i]))
+
+    # checks which classes you still have remaining
+    remaining = []
+    for i in range(len(path)):
+        if path[i] not in taken:
+            remaining.append(path[i])
+    
+    # helper function to see if you have enough time to complete prereqs
+    def prereq_check(rem, time_left):
+        t = 0
+        for i in range(len(rem) - 1):
+            if rem[i] in deets["prereqs"][rem[i + 1]]:
+                t += 1
+        if t >= time_left:
+            print("You do not have enough time left to take this course.")
+            print("You would need to finish: " + (str) (remaining))
+        else:
+            print("It's doable! Courses needed: " + (str) (remaining))
+
+
     # check school types, proceed accordingly
     if (deets["type"] == "hs"):
-        time = (int) (input("How many years (including this one) do you have left? \n"))
+        years = (int) (input("How many years (including this one) do you have left? \n"))
+        prereq_check(remaining, years)
+
     else:
-        time = (int) (input("How many semesters (including this one) do you have left? \n"))
+        sems = (int) (input("How many semesters (including this one) do you have left? \n"))
+        prereq_check(remaining, sems)
 
-    classpath(deets, taken, course, time)
-
-
-
+main()
 
 ##### PAST SAMPLE SETS #####
 

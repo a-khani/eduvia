@@ -1,8 +1,2 @@
 # eduvia
-# eduvia
-# eduvia
-# eduvia
-# eduvia
-# eduvia
-# eduvia
-# eduvia
+Our beautiful, beautiful Asian child.

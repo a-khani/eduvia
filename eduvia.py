@@ -15,16 +15,41 @@ def toposort(graph, node):
     recursive_helper(node)
     return result
 
+def main():
+    # TODO: take user input to find school
+    school = input("Which school do you attend? \n")
+
+    # TODO: parse the json file and find the school & its corresponding info
+    # parse me pls
+    
+    # TODO: ask which course they want to take
+    course = input("Which course do you want to take? \n")
+
+    #run toposort() on the school with the given course
+    path = toposort("insert prereqs list here", course)
+    
+    # check school types, proceed accordingly
+    if ("school type is HS"): # TODO
+        years = input("How many years (including this one) do you have left? \n")
+
+        print(path[:years]) # TODO: make it print actual path
+
+    elif ("school type is UNI"): # TODO
+        sems = input("How many semesters (including this one) do you have left? \n")
+        
+        print(path[:sems]) # TODO: make it print actual path
+
+
 # graph = {'A':['B','C'],'B':['D','E'],'C':['D','E'],'D':['E'],'E':['A']}
 # print(toposort(graph, 'A'))
 
-# courses = {
-#         '54': ['1B'], 
-#         '53': ['1B'],
-#         '1B': ['1A'],
-#         '1A': []
-#         }
-# print(toposort(courses, '54'))
+courses = {
+        '54': ['1B'], 
+        '53': ['1B'],
+        '1B': ['1A'],
+        '1A': []
+        }
+print(toposort(courses, '54'))
 
 berkeley_cs = {
     '189': ['70'],
